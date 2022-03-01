@@ -1,0 +1,84 @@
+<%= form_with(model: recipe) do |form| %>
+  <% if recipe.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+      <ul>
+        <% recipe.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <div class="form-group">
+
+    <%= form.file_field :image %>
+
+    <% if @recipe.image? %>
+
+      <%= image_tag @recipe.image.url, class: "recipe-show" %>
+
+      <%= form.check_box :remove_image %>
+
+        Remove Image
+
+    <% end %>
+
+ </div>
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title, class:'form-control' %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description, class:'form-control' %>
+  </div>
+<h3>Add Ingredients</h3>
+<%= form.fields_for :ingredients do |ingredient| %>
+<%= render 'ingredient_fields', f: ingredient %>
+<% end %>
+<div class="links">
+<%= link_to_add_association 'Add Ingredient', form, :ingredients %>
+</div>
+
+<h3>Add Steps</h3>
+<%= form.fields_for :steps do |step| %>
+<%= render 'step_fields', f: step %>
+<% end %>
+<div class="links">
+<%= link_to_add_association 'Add Step', form, :steps %>
+</div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<script>
+  jquery('h3').hide();
+  </script>
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
